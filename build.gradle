@@ -1,0 +1,9 @@
+plugins {
+    id 'base'
+    id 'idea'
+}
+
+allprojects {
+    group 'com.github.slamdev.micro.playground'
+    version '0.0.1-SNAPSHOT'
+}

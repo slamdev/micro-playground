@@ -1,0 +1,26 @@
+buildscript {
+    repositories {
+        maven { url 'https://repo.spring.io/libs-milestone' }
+    }
+    dependencies {
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M2'
+        classpath 'io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE'
+    }
+}
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'java'
+
+repositories {
+    jcenter()
+    maven { url 'https://repo.spring.io/libs-milestone' }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-actuator'
+    compile 'org.keycloak:keycloak-spring-security-adapter:3.1.0.Final'
+    compile 'org.keycloak:keycloak-tomcat8-adapter:3.1.0.Final'
+}

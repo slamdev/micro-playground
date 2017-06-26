@@ -1,0 +1,4 @@
+rootProject.name = 'micro-playground'
+['apps', 'ops', 'services'].collect { file(it).listFiles() }.flatten().each {
+    include "${it.parentFile.name}:${it.name}"
+}

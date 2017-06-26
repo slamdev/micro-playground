@@ -1,0 +1,7 @@
+{
+  "realm": "micro-playground",
+  "auth-server-url": "http://localhost:8888/auth",
+  "ssl-required": "external",
+  "resource": "frontend",
+  "public-client": true
+}

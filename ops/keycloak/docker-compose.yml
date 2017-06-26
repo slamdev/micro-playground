@@ -1,0 +1,44 @@
+version: '2.1' # do not migrate to 3.x version because of https://github.com/docker/compose/issues/4305
+services:
+  load-blancer:
+    image: dockercloud/haproxy
+    links:
+      - application
+    environment:
+      EXTRA_FRONTEND_SETTINGS_80: option forwardfor, http-request set-header X-Forwarded-Port %[dst_port], cookie KC_ prefix, cookie KEYCLOAK_ prefix
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 8888:80
+  database:
+    image: postgres:9-alpine
+    environment:
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
+    ports:
+      - 5433:5432
+    volumes:
+      - ./build/pg-data:/var/lib/postgresql/data:rw
+    healthcheck:
+      test: ['CMD-SHELL', 'su -c "psql -lqt | cut -d \| -f 1 | grep -qw keycloak" postgres']
+      interval: 5s
+      timeout: 3s
+      retries: 5
+  application:
+    build:
+      context: .
+#    scale: 2 # need to switch to 2.2 version of compose file
+    ports:
+      - 8080
+    links:
+      - database
+    environment:
+      - KEYCLOAK_USER=admin
+      - KEYCLOAK_PASSWORD=admin
+      - POSTGRES_USER=keycloak
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DATABASE=keycloak
+      - POSTGRES_PORT_5432_TCP_ADDR=database
+    depends_on:
+      database:
+        condition: service_healthy
