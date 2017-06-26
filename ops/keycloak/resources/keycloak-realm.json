@@ -1210,6 +1210,10 @@
     "contentSecurityPolicy": "frame-src 'self'"
   },
   "smtpServer": {},
+  "loginTheme": "micro",
+  "accountTheme": "micro",
+  "adminTheme": "micro",
+  "emailTheme": "micro",
   "eventsEnabled": false,
   "eventsListeners": [
     "jboss-logging"
