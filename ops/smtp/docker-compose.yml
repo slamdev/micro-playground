@@ -1,0 +1,10 @@
+version: '2.1' # do not migrate to 3.x version because of https://github.com/docker/compose/issues/4305
+services:
+  postfix-relay:
+    image: alterrebe/postfix-relay
+    environment:
+      SMTP_LOGIN: apikey
+      SMTP_PASSWORD: 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
+      EXT_RELAY_HOST: smtp.sendgrid.net
+    ports:
+      - 25:9025
