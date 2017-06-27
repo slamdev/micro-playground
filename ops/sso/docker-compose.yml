@@ -3,20 +3,21 @@ services:
   haproxy:
     image: dockercloud/haproxy
     links:
-      - application
+      - keycloak
+    depends_on:
+      keycloak:
+        condition: service_healthy
     environment:
       EXTRA_FRONTEND_SETTINGS_80: option forwardfor, http-request set-header X-Forwarded-Port %[dst_port], cookie KC_ prefix, cookie KEYCLOAK_ prefix
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
-      - 8888:80
+      - 9001:80
   postgres:
     image: postgres:9-alpine
     environment:
       - POSTGRES_USER=keycloak
       - POSTGRES_PASSWORD=password
-    ports:
-      - 5433:5432
     volumes:
       - ./build/pg-data:/var/lib/postgresql/data:rw
     healthcheck:
@@ -30,8 +31,6 @@ services:
 #    scale: 2 # need to switch to 2.2 version of compose file
     ports:
       - 8080
-    links:
-      - postgres
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
@@ -40,5 +39,5 @@ services:
       - POSTGRES_DATABASE=keycloak
       - POSTGRES_PORT_5432_TCP_ADDR=postgres
     depends_on:
-      database:
+      postgres:
         condition: service_healthy
