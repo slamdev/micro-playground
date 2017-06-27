@@ -25,3 +25,5 @@ CMD ["--server-config", "standalone-ha.xml", \
      "-Dkeycloak.migration.action=import", "-Dkeycloak.migration.provider=singleFile", \
      "-Dkeycloak.migration.file=/opt/jboss/keycloak/standalone/configuration/keycloak-realm.json", \
      "-Dkeycloak.migration.strategy=OVERWRITE_EXISTING"]
+
+HEALTHCHECK --interval=5s --timeout=3s CMD curl --fail http://localhost:8080/auth/version || exit 1

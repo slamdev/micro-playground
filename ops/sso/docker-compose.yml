@@ -1,6 +1,6 @@
 version: '2.1' # do not migrate to 3.x version because of https://github.com/docker/compose/issues/4305
 services:
-  load-blancer:
+  haproxy:
     image: dockercloud/haproxy
     links:
       - application
@@ -10,7 +10,7 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 8888:80
-  database:
+  postgres:
     image: postgres:9-alpine
     environment:
       - POSTGRES_USER=keycloak
@@ -24,21 +24,21 @@ services:
       interval: 5s
       timeout: 3s
       retries: 5
-  application:
+  keycloak:
     build:
       context: .
 #    scale: 2 # need to switch to 2.2 version of compose file
     ports:
       - 8080
     links:
-      - database
+      - postgres
     environment:
       - KEYCLOAK_USER=admin
       - KEYCLOAK_PASSWORD=admin
       - POSTGRES_USER=keycloak
       - POSTGRES_PASSWORD=password
       - POSTGRES_DATABASE=keycloak
-      - POSTGRES_PORT_5432_TCP_ADDR=database
+      - POSTGRES_PORT_5432_TCP_ADDR=postgres
     depends_on:
       database:
         condition: service_healthy
