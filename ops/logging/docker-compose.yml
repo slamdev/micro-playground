@@ -22,7 +22,6 @@ services:
   graylog:
     build:
       context: .
-    image: graylog2/server:2.2.1-1
     volumes:
       - ./build/graylog/journal:/usr/share/graylog/data/journal
     environment:
@@ -40,5 +39,10 @@ services:
       - elasticsearch
     ports:
       - 9000:9000
-      - 12201/udp:12201/udp
-      - 1514/udp:1514/udp
+    expose:
+      - 12201/udp
+      - 1514/udp
+networks:
+  default:
+    external:
+      name: micro-playground

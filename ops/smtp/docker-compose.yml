@@ -4,7 +4,11 @@ services:
     image: alterrebe/postfix-relay
     environment:
       SMTP_LOGIN: apikey
-      SMTP_PASSWORD: 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
+      SMTP_PASSWORD: ${MT_SMTP_PASSWORD}
       EXT_RELAY_HOST: smtp.sendgrid.net
-    ports:
-      - 25:9025
+    expose:
+      - 25
+networks:
+  default:
+    external:
+      name: micro-playground
