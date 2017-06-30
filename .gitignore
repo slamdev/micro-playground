@@ -5,4 +5,4 @@ classes/
 out/
 node_modules/
 *.iml
-.asscache
+.env

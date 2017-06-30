@@ -1,0 +1,22 @@
+version: '2.1' # do not migrate to 3.x version because of https://github.com/docker/compose/issues/4305
+services:
+  cassandra:
+    image: cassandra:2
+    volumes:
+      - ./build/cassandra:/var/lib/cassandra
+#    healthcheck:
+#      test: ['CMD-SHELL', 'echo "db.stats().ok" | mongo --quiet || exit1']
+#      interval: 5s
+#      timeout: 3s
+#      retries: 5
+  glowroot:
+    build:
+      context: .
+    depends_on:
+      - cassandra
+    ports:
+      - 9002:4000
+networks:
+  default:
+    external:
+      name: micro-playground
