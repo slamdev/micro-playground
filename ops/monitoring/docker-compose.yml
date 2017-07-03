@@ -1,0 +1,51 @@
+version: '2.1' # do not migrate to 3.x version because of https://github.com/docker/compose/issues/4305
+services:
+  prometheus:
+    image: prom/prometheus
+    volumes:
+      - ./resources/prometheus/:/etc/
+      - ./build/prometheus/:/prometheus
+    command:
+      - '-config.file=/etc/prometheus.yml'
+      - '-storage.local.path=/prometheus'
+      - '-alertmanager.url=http://alertmanager:9093'
+    expose:
+      - 9090
+    ports:
+      - 9090:9090
+    depends_on:
+      - alertmanager
+  alertmanager:
+    image: prom/alertmanager
+    expose:
+      - 9093
+    volumes:
+      - ./resources/alertmanager.yml:/etc/alertmanager.yml
+      - ./build/alertmanager/:/alertmanager
+    command:
+      - '-config.file=/etc/alertmanager.yml'
+      - '-storage.path=/alertmanager'
+  node-exporter:
+    image: prom/node-exporter
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command: '-collector.procfs=/host/proc -collector.sysfs=/host/sys -collector.filesystem.ignored-mount-points="^(/rootfs|/host|)/(sys|proc|dev|host|etc)($$|/)" collector.filesystem.ignored-fs-types="^(sys|proc|auto|cgroup|devpts|ns|au|fuse\.lxc|mqueue)(fs|)$$"'
+    expose:
+      - 9100
+  grafana:
+    image: grafana/grafana
+    depends_on:
+      - prometheus
+    ports:
+      - 3000:3000
+    volumes:
+      - ./build/grafana:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+networks:
+  default:
+    external:
+      name: micro-playground
