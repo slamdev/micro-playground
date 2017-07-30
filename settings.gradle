@@ -1,4 +1,6 @@
 rootProject.name = 'micro-playground'
-['apps', 'ops', 'services'].collect { file(it).listFiles() }.flatten().each {
-    include "${it.parentFile.name}:${it.name}"
-}
+['apps', 'ops', 'services', 'libs']
+        .collect { file(it).listFiles() }
+        .flatten()
+        .findAll { it.name != '.DS_Store' }
+        .each { include "${it.parentFile.name}:${it.name}" }
