@@ -5,42 +5,28 @@
 <h1>My First Heading</h1>
 
 <p>My first paragraph.</p>
-<script src="//localhost:8888/auth/js/keycloak.js"></script>
 <script src="//code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript">
-    var keycloak = Keycloak();
-    keycloak.init({
-        onLoad: 'login-required'
-    }).success(function (authenticated) {
-        if (authenticated) {
-            $.ajax({
-                url: 'http://localhost:8080/api/profile1',
-                headers: {'Authorization': 'Bearer ' + keycloak.token}
-            }).done(function (response) {
-                console.log(response);
-            });
-            $.ajax({
-                url: 'http://localhost:8080/api/profile2',
-                headers: {'Authorization': 'Bearer ' + keycloak.token}
-            }).done(function (response) {
-                console.log(response);
-            });
-            //
-            $.ajax({
-                url: 'http://localhost:8181/api/profile1',
-                headers: {'Authorization': 'Bearer ' + keycloak.token}
-            }).done(function (response) {
-                console.log(response);
-            });
-            $.ajax({
-                url: 'http://localhost:8181/api/profile2',
-                headers: {'Authorization': 'Bearer ' + keycloak.token}
-            }).done(function (response) {
-                console.log(response);
-            });
-        }
-    }).error(function () {
-        alert('failed to initialize');
+    $.ajax({
+        url: 'http://localhost:8181/api/profile1'
+    }).done(function (response) {
+        console.log(response);
+    });
+    $.ajax({
+        url: 'http://localhost:8181/api/profile2'
+    }).done(function (response) {
+        console.log(response);
+    });
+    //
+    $.ajax({
+        url: 'http://localhost:8282/api/profile1'
+    }).done(function (response) {
+        console.log(response);
+    });
+    $.ajax({
+        url: 'http://localhost:8282/api/profile2'
+    }).done(function (response) {
+        console.log(response);
     });
 </script>
 </body>
