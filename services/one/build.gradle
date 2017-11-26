@@ -3,7 +3,7 @@ buildscript {
         maven { url 'https://repo.spring.io/libs-milestone' }
     }
     dependencies {
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M2'
+        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M6'
         classpath 'io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE'
     }
 }
@@ -19,8 +19,7 @@ repositories {
 
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.boot:spring-boot-starter-security'
-    compile 'org.springframework.boot:spring-boot-actuator'
-    compile 'org.keycloak:keycloak-spring-security-adapter:3.1.0.Final'
-    compile 'org.keycloak:keycloak-tomcat8-adapter:3.1.0.Final'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile project(':libs:authentication-client')
+    compileOnly 'org.projectlombok:lombok'
 }
