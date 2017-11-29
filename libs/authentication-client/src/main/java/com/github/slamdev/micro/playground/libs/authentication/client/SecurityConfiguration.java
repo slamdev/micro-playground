@@ -3,6 +3,7 @@ package com.github.slamdev.micro.playground.libs.authentication.client;
 import lombok.SneakyThrows;
 import org.springframework.context.annotation.Import;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
@@ -13,7 +14,8 @@ import javax.servlet.Filter;
 
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
-@Import(JwtAuthenticationProvider.class)
+@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
+@Import({JwtAuthenticationProvider.class, JwtFactory.class})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     public SecurityConfiguration() {

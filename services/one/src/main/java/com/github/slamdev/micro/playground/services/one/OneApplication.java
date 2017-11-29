@@ -1,4 +1,4 @@
-package com.github.slamdev.micro.playground.libs.authentication.client;
+package com.github.slamdev.micro.playground.services.one;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
