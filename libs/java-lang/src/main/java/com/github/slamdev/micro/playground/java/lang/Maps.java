@@ -12,7 +12,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 @UtilityClass
-public final class Maps {
+public class Maps {
 
     public static <T, K extends Enum<K>, U> Collector<T, ?, EnumMap<K, U>> toEnumMap(
             Class<K> type,

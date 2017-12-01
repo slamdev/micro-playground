@@ -5,7 +5,7 @@ import lombok.experimental.UtilityClass;
 import java.util.function.Supplier;
 
 @UtilityClass
-public final class Suppliers {
+public class Suppliers {
 
     public static <T> Supplier<T> lazily(Supplier<T> supplier) {
         return new Supplier<T>() {

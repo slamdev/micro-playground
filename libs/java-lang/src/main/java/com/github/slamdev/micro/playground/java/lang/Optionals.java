@@ -11,7 +11,7 @@ import java.util.function.Predicate;
 import static java.util.Locale.ROOT;
 
 @UtilityClass
-public final class Optionals {
+public class Optionals {
 
     public static OptionalInt integer(Integer value) {
         return value == null ? OptionalInt.empty() : OptionalInt.of(value);
