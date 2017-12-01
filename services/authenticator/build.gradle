@@ -10,6 +10,7 @@ repositories {
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile project(':libs:authentication-client')
     compileOnly 'org.projectlombok:lombok'
 }

@@ -4,7 +4,6 @@ import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTParser;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
@@ -24,17 +23,21 @@ public class JwtAuthenticationFilter extends AbstractAuthenticationProcessingFil
 
     private static final String HEADER_PREFIX = "Bearer";
 
+    private static final String FILTER_STATE_ATTRIBUTE_NAME = "JwtAuthenticationFilter";
+
     public JwtAuthenticationFilter() {
         super("/**");
-        setAuthenticationSuccessHandler((request, response, authentication) -> log.info("Authenticated with {}", authentication));
+        setAuthenticationSuccessHandler((request, response, authentication) -> {
+            request.setAttribute(FILTER_STATE_ATTRIBUTE_NAME, "success");
+            log.info("Authenticated with {}", authentication);
+        });
+        setAuthenticationFailureHandler(((request, response, exception) -> request.setAttribute(FILTER_STATE_ATTRIBUTE_NAME, "fail")));
     }
 
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain)
             throws IOException, ServletException {
         super.doFilter(req, res, chain);
-        HttpServletResponse response = (HttpServletResponse) res;
-        HttpStatus status = HttpStatus.resolve(response.getStatus());
-        if (status.is2xxSuccessful()) {
+        if (!"fail".equals(req.getAttribute(FILTER_STATE_ATTRIBUTE_NAME))) {
             chain.doFilter(req, res);
         }
     }
