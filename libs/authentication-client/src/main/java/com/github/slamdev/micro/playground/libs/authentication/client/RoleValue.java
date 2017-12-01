@@ -1,17 +1,17 @@
 package com.github.slamdev.micro.playground.libs.authentication.client;
 
 import lombok.Getter;
-import lombok.ToString;
+import lombok.experimental.UtilityClass;
 
-public interface RoleValue {
+@UtilityClass
+public class RoleValue {
 
-    String USER_ROLE = "ROLE_USER";
-    String ANONYMOUS_ROLE = "ROLE_ANONYMOUS";
-    String ADMIN_ROLE = "ROLE_ADMIN";
+    public static final String USER_ROLE = "ROLE_USER";
+    public static final String ANONYMOUS_ROLE = "ROLE_ANONYMOUS";
+    public static final String ADMIN_ROLE = "ROLE_ADMIN";
 
     @Getter
-    @ToString
-    enum Role {
+    public enum Role {
 
         USER(USER_ROLE), ADMIN(ADMIN_ROLE), ANONYMOUS(ANONYMOUS_ROLE);
 
@@ -19,6 +19,11 @@ public interface RoleValue {
 
         Role(String name) {
             this.name = name;
+        }
+
+        @Override
+        public String toString() {
+            return name;
         }
     }
 }

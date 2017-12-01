@@ -10,13 +10,15 @@ import java.util.Collection;
 @Getter
 class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
+    private static final long serialVersionUID = 42L;
+
     private final OAuth2User principal;
 
     private final String accessToken;
 
-    public JwtAuthenticationToken(OAuth2User principal,
-                                  Collection<? extends GrantedAuthority> authorities,
-                                  String accessToken) {
+    JwtAuthenticationToken(OAuth2User principal,
+                           Collection<? extends GrantedAuthority> authorities,
+                           String accessToken) {
         super(authorities);
         this.principal = principal;
         this.accessToken = accessToken;

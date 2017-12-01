@@ -90,10 +90,10 @@ class JwtAuthenticationProvider implements AuthenticationProvider {
         }
         Instant expiresAt = jwtClaimsSet.getExpirationTime().toInstant();
         Instant issuedAt = null;
-        if (jwtClaimsSet.getIssueTime() != null) {
-            issuedAt = jwtClaimsSet.getIssueTime().toInstant();
-        } else {
+        if (jwtClaimsSet.getIssueTime() == null) {
             throwInvalidIdTokenException();
+        } else {
+            issuedAt = jwtClaimsSet.getIssueTime().toInstant();
         }
         Map<String, Object> headers = new LinkedHashMap<>(parsedJwt.getHeader().toJSONObject());
         Map<String, Object> claims = fixDateClaims(jwtClaimsSet.getClaims());
@@ -154,7 +154,7 @@ class JwtAuthenticationProvider implements AuthenticationProvider {
         // 4. If the ID Token contains multiple audiences,
         // the Client SHOULD verify that an azp Claim is present.
         String authorizedParty = idToken.getAuthorizedParty();
-        if (audience.size() > 1 && authorizedParty == null) {
+        if (authorizedParty == null && audience.size() > 1) {
             this.throwInvalidIdTokenException();
         }
 

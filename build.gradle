@@ -18,4 +18,6 @@ plugins {
 allprojects {
     group 'com.github.slamdev.micro.playground'
     version '0.0.1-SNAPSHOT'
+
+    apply from: "${rootProject.projectDir}/gradle/validation.gradle"
 }

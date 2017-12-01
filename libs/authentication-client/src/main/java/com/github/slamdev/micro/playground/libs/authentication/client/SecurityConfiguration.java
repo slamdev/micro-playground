@@ -49,8 +49,7 @@ class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and().servletApi()
                 .and().exceptionHandling()
                 .and().headers()
-                .and().sessionManagement().sessionCreationPolicy(STATELESS)
-        ;
+                .and().sessionManagement().sessionCreationPolicy(STATELESS);
     }
 
     @Bean
