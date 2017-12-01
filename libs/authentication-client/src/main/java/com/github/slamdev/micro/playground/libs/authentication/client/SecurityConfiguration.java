@@ -1,7 +1,8 @@
 package com.github.slamdev.micro.playground.libs.authentication.client;
 
-import lombok.SneakyThrows;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationTrustResolver;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -10,16 +11,21 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AnonymousAuthenticationFilter;
 import org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter;
 
-import javax.servlet.Filter;
-
 import static org.springframework.security.config.http.SessionCreationPolicy.STATELESS;
 
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
-@Import({JwtAuthenticationProvider.class, JwtFactory.class})
+@Import({
+        JwtAuthenticationProvider.class,
+        JwtAuthenticationFilter.class,
+        JwtFactory.class
+})
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
-    public SecurityConfiguration() {
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+
+    public SecurityConfiguration(JwtAuthenticationFilter jwtAuthenticationFilter) {
         super(true);
+        this.jwtAuthenticationFilter = jwtAuthenticationFilter;
         setTrustResolver(new AuthenticationTrustResolver() {
             @Override
             public boolean isAnonymous(Authentication authentication) {
@@ -37,7 +43,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .addFilter(new WebAsyncManagerIntegrationFilter())
-                .addFilterBefore(jwtAuthenticationFilter(), AnonymousAuthenticationFilter.class)
+                .addFilterBefore(jwtAuthenticationFilter, AnonymousAuthenticationFilter.class)
                 .securityContext()
                 .and().anonymous()
                 .and().servletApi()
@@ -47,10 +53,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
         ;
     }
 
-    @SneakyThrows
-    private Filter jwtAuthenticationFilter() {
-        JwtAuthenticationFilter filter = new JwtAuthenticationFilter();
-        filter.setAuthenticationManager(authenticationManager());
-        return filter;
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        // This method is here with the @Bean annotation so that Spring can autowire it
+        return super.authenticationManagerBean();
     }
 }

@@ -1,5 +1,6 @@
 package com.github.slamdev.micro.playground.libs.authentication.client;
 
+import com.github.slamdev.micro.playground.libs.authentication.client.JwtAuthenticationToken;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
@@ -10,10 +11,12 @@ import com.nimbusds.jose.proc.JWSVerificationKeySelector;
 import com.nimbusds.jose.proc.SecurityContext;
 import com.nimbusds.jwt.JWT;
 import com.nimbusds.jwt.JWTClaimsSet;
+import com.nimbusds.jwt.JWTParser;
 import com.nimbusds.jwt.proc.DefaultJWTProcessor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -27,9 +30,11 @@ import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.oauth2.core.oidc.user.OidcUser;
 import org.springframework.security.oauth2.jose.jws.JwsAlgorithms;
 import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.security.web.authentication.preauth.PreAuthenticatedAuthenticationToken;
 import org.springframework.util.CollectionUtils;
 
 import java.net.URL;
+import java.text.ParseException;
 import java.time.Instant;
 import java.util.*;
 
@@ -55,7 +60,24 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) {
-        JWT parsedJwt = (JWT) authentication.getPrincipal();
+        // Only process the PreAuthenticatedAuthenticationToken
+        if (authentication.getClass().isAssignableFrom(PreAuthenticatedAuthenticationToken.class)
+                && authentication.getPrincipal() != null) {
+            String tokenHeader = (String) authentication.getPrincipal();
+            JwtAuthenticationToken token = authenticate(tokenHeader);
+            token.setDetails(authentication.getDetails());
+            return token;
+        }
+        return authentication;
+    }
+
+    private JwtAuthenticationToken authenticate(String token) {
+        JWT parsedJwt;
+        try {
+            parsedJwt = JWTParser.parse(token);
+        } catch (ParseException e) {
+            throw new BadCredentialsException("Unable to parse JWT token", e);
+        }
         JWSAlgorithm jwsAlgorithm = JWSAlgorithm.parse(JwsAlgorithms.HS256);
         JWKSource<SecurityContext> jwkSource = new ImmutableSecret<>(jwtSecret.getBytes(UTF_8));
         JWSKeySelector<SecurityContext> jwsKeySelector = new JWSVerificationKeySelector<>(jwsAlgorithm, jwkSource);
@@ -82,7 +104,6 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         OidcUser oidcUser = new DefaultOidcUser(getAuthoritiesFromClaims(idToken.getClaimAsStringList("roles")), idToken, new OidcUserInfo(idToken.getClaims()));
         Collection<? extends GrantedAuthority> mappedAuthorities = authoritiesMapper.mapAuthorities(oidcUser.getAuthorities());
         JwtAuthenticationToken authenticationResult = new JwtAuthenticationToken(oidcUser, mappedAuthorities, parsedJwt.getParsedString());
-        authenticationResult.setDetails(authentication.getDetails());
         authenticationResult.setAuthenticated(true);
         return authenticationResult;
     }
@@ -160,6 +181,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public boolean supports(Class<?> authentication) {
-        return JwtPreAuthenticatedToken.class.isAssignableFrom(authentication);
+        return authentication.isAssignableFrom(PreAuthenticatedAuthenticationToken.class)
+                || authentication.isAssignableFrom(JwtAuthenticationToken.class);
     }
 }
