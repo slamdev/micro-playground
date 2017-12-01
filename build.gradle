@@ -1,8 +1,10 @@
 buildscript {
     repositories {
+        maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://repo.spring.io/libs-milestone' }
     }
     dependencies {
+        classpath 'gradle.plugin.com.github.slamdev.swagger:swagger-gradle-plugin:0.0.39'
         classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M7'
         classpath 'io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE'
     }

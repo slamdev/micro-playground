@@ -1,0 +1,69 @@
+---
+swagger: '2.0'
+info:
+  title: WS DMP
+  version: 0.0.1
+x-package-name: com.github.slamdev.micro.playground.services.authenticator.api
+x-api-name-prefix: Authenticator
+x-path-variable-name: services.authenticator.url
+basePath: /api
+paths:
+  /token:
+    post:
+      operationId: generateToken
+      consumes:
+        - application/json
+      produces:
+        - text/plain
+      parameters:
+        - name: credential
+          in: body
+          schema:
+            $ref: '#/definitions/Credential'
+      responses:
+        200:
+          description: OK
+          schema:
+            type: string
+      x-security-role: ROLE_ANONYMOUS
+  /user:
+    put:
+      operationId: createUser
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - name: credential
+          in: body
+          schema:
+            $ref: '#/definitions/Credential'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/User'
+      x-security-role: ROLE_ADMIN
+definitions:
+  Credential:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+      password:
+        type: string
+  User:
+    type: object
+    properties:
+      id:
+        type: string
+      email:
+        type: string
+        format: email
+      role:
+        type: string
+        enum:
+          - ANONYMOUS
+          - USER
+          - ADMIN
