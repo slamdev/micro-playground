@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
-import java.util.function.Function;
 import java.util.function.Supplier;
 
+import static com.github.slamdev.micro.playground.java.lang.Exceptions.transformException;
 import static com.github.slamdev.micro.playground.libs.authentication.client.RoleValue.ADMIN_ROLE;
 import static com.github.slamdev.micro.playground.libs.authentication.client.RoleValue.ANONYMOUS_ROLE;
 import static com.github.slamdev.micro.playground.libs.authentication.client.RoleValue.Role.USER;
@@ -61,19 +61,5 @@ public class AuthenticationController {
     private <T> T handleDuplicateException(Supplier<T> action) {
         return transformException(action, DuplicateKeyException.class,
                 e -> new HttpClientErrorException(CONFLICT, e.getCause().getMessage()));
-    }
-
-    private <T, E extends Exception, K extends RuntimeException> T transformException(Supplier<T> action,
-                                                                                      Class<E> exceptionType,
-                                                                                      Function<E, K> transformer) {
-        try {
-            return action.get();
-        } catch (Exception e) {
-            if (exceptionType.isInstance(e)) {
-                throw transformer.apply(exceptionType.cast(e));
-            } else {
-                throw e;
-            }
-        }
     }
 }
