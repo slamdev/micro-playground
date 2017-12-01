@@ -16,6 +16,8 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compile 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.0'
+    runtime 'org.codehaus.janino:janino:3.0.7'
     compile 'org.modelmapper:modelmapper:1.1.1'
     compile project(':libs:spring-conventions')
     compile project(':libs:authentication-client')
