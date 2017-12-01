@@ -13,8 +13,7 @@ paths:
       operationId: generateToken
       consumes:
         - application/json
-      produces:
-        - text/plain
+      # produces should not be specified since method can return either text or json on error
       parameters:
         - name: credential
           in: body

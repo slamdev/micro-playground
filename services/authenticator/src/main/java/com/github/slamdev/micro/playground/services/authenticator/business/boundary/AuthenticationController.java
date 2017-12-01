@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DuplicateKeyException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
@@ -30,6 +31,8 @@ public class AuthenticationController implements AuthenticatorApi {
 
     private final UserRepository userRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final ModelMapper mapper = new ModelMapper();
 
     private <T> T handleDuplicateException(Supplier<T> action) {
@@ -41,7 +44,7 @@ public class AuthenticationController implements AuthenticatorApi {
     public com.github.slamdev.micro.playground.services.authenticator.api.User createUser(Credential credential) {
         User user = User.builder()
                 .email(credential.getEmail())
-                .password(credential.getPassword())
+                .password(passwordEncoder.encode(credential.getPassword()))
                 .role(USER)
                 .build();
         User savedUser = handleDuplicateException(() -> userRepository.save(user));
@@ -51,7 +54,7 @@ public class AuthenticationController implements AuthenticatorApi {
     @Override
     public String generateToken(Credential credential) {
         return userRepository.findByEmail(credential.getEmail())
-                .filter(user -> user.getPassword().equals(credential.getPassword()))
+                .filter(user -> passwordEncoder.matches(credential.getPassword(), user.getPassword()))
                 .map(user -> jwtFactory.create(user.getEmail(), singletonList(user.getRole().toString())))
                 .map(SignedJWT::serialize)
                 .orElseThrow(() -> new HttpClientErrorException(UNAUTHORIZED));
