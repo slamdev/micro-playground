@@ -1,6 +1,5 @@
 package com.github.slamdev.micro.playground.libs.authentication.client;
 
-import com.github.slamdev.micro.playground.libs.authentication.client.JwtAuthenticationToken;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.JWSAlgorithm;
 import com.nimbusds.jose.jwk.source.ImmutableSecret;
@@ -44,7 +43,7 @@ import static java.util.stream.Collectors.toMap;
 import static java.util.stream.Collectors.toSet;
 
 @Configuration
-public class JwtAuthenticationProvider implements AuthenticationProvider {
+class JwtAuthenticationProvider implements AuthenticationProvider {
 
     private static final String INVALID_ID_TOKEN_ERROR_CODE = "invalid_id_token";
 

@@ -1,4 +1,4 @@
-package com.github.slamdev.micro.playground.libs.authentication.client;
+package com.github.slamdev.micro.playground.libs.spring.convetions;
 
 import lombok.SneakyThrows;
 import org.springframework.boot.SpringApplication;
@@ -12,11 +12,15 @@ import java.io.InputStream;
 import java.util.Map;
 import java.util.Properties;
 
-public class PropertiesEnvironmentPostProcessor implements EnvironmentPostProcessor {
+public abstract class PropertiesEnvironmentPostProcessor implements EnvironmentPostProcessor {
 
     private static final String PROPERTY_SOURCE_NAME = "defaultProperties";
 
-    private final Map<String, String> properties = toProperties("default.properties");
+    private final Map<String, String> properties;
+
+    public PropertiesEnvironmentPostProcessor(String propertiesFileName) {
+        properties = toProperties(propertiesFileName);
+    }
 
     @SuppressWarnings("unchecked")
     @SneakyThrows

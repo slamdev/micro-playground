@@ -1,4 +1,4 @@
-package com.github.slamdev.micro.playground.services.authenticator.integration;
+package com.github.slamdev.micro.playground.libs.spring.convetions;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -12,7 +12,7 @@ import java.util.Optional;
 
 @Configuration
 @EnableMongoAuditing
-public class AuditingConfiguration {
+class AuditingConfiguration {
 
     @Bean
     public AuditorAware<String> auditorAware() {

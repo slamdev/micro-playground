@@ -8,7 +8,7 @@ import org.springframework.security.oauth2.core.user.OAuth2User;
 import java.util.Collection;
 
 @Getter
-public class JwtAuthenticationToken extends AbstractAuthenticationToken {
+class JwtAuthenticationToken extends AbstractAuthenticationToken {
 
     private final OAuth2User principal;
 

@@ -19,7 +19,7 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
         JwtAuthenticationFilter.class,
         JwtFactory.class
 })
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
 

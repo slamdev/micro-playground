@@ -13,9 +13,9 @@ dependencyManagement {
 }
 
 dependencies {
-    api 'org.springframework.security:spring-security-oauth2-jose'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation project(':libs:spring-conventions')
-    compileOnly 'javax.servlet:javax.servlet-api'
+    compileOnly 'org.springframework.boot:spring-boot-starter-web'
+    compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
+    compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compileOnly 'org.springframework.boot:spring-boot-starter-security'
     compileOnly 'org.projectlombok:lombok'
 }

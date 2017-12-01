@@ -5,13 +5,12 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.web.authentication.preauth.RequestHeaderAuthenticationFilter;
-import org.springframework.stereotype.Component;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Optional;
 
 @Configuration
-public class JwtAuthenticationFilter extends RequestHeaderAuthenticationFilter {
+class JwtAuthenticationFilter extends RequestHeaderAuthenticationFilter {
 
     private static final String HEADER_PREFIX = "Bearer";
 

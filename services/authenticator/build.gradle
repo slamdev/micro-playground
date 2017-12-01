@@ -17,6 +17,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compile 'org.modelmapper:modelmapper:1.1.1'
+    compile project(':libs:spring-conventions')
     compile project(':libs:authentication-client')
     compile project(':libs:java-lang')
     compileOnly 'org.projectlombok:lombok'
