@@ -17,7 +17,8 @@ import static org.springframework.security.config.http.SessionCreationPolicy.STA
 @Import({
         JwtAuthenticationProvider.class,
         JwtAuthenticationFilter.class,
-        JwtFactory.class
+        JwtFactory.class,
+        SecuredApiRequestInterceptor.class
 })
 class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 

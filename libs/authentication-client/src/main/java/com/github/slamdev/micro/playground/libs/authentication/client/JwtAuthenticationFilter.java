@@ -12,7 +12,7 @@ import java.util.Optional;
 @Configuration
 class JwtAuthenticationFilter extends RequestHeaderAuthenticationFilter {
 
-    private static final String HEADER_PREFIX = "Bearer";
+    static final String HEADER_PREFIX = "Bearer";
 
     @Override
     @Autowired
