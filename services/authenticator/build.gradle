@@ -5,6 +5,7 @@ apply plugin: 'java'
 
 swagger {
     server 'src/main/resources/authenticator-api.yml'
+    client project(':services:mailer').file('src/main/resources/mailer-api.yml')
 }
 
 dependencies {
