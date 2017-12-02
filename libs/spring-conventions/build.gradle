@@ -1,21 +1,12 @@
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'java-library'
 
-repositories {
-    jcenter()
-    maven { url 'https://repo.spring.io/libs-milestone' }
-}
-
-dependencyManagement {
-    imports {
-        mavenBom 'org.springframework.boot:spring-boot-dependencies:2.0.0.M7'
-    }
-}
-
 dependencies {
     compileOnly 'org.springframework.boot:spring-boot-starter-web'
     compileOnly 'org.springframework.boot:spring-boot-starter-actuator'
     compileOnly 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compileOnly 'org.springframework.boot:spring-boot-starter-security'
+    compileOnly 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter'
+    compileOnly 'javax.servlet:javax.servlet-api'
     compileOnly 'org.projectlombok:lombok'
 }

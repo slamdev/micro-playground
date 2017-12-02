@@ -7,18 +7,15 @@ swagger {
     server 'src/main/resources/authenticator-api.yml'
 }
 
-repositories {
-    jcenter()
-    maven { url 'https://repo.spring.io/libs-milestone' }
-}
-
 dependencies {
     compile 'org.springframework.boot:spring-boot-starter-web'
+    runtime 'org.springframework.boot:spring-boot-starter-undertow'
     compile 'org.springframework.boot:spring-boot-starter-actuator'
     compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
-    compile 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.0'
-    runtime 'org.codehaus.janino:janino:3.0.7'
-    compile 'org.modelmapper:modelmapper:1.1.1'
+    compile 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter'
+    compile 'javax.servlet:javax.servlet-api'
+    runtime 'org.codehaus.janino:janino'
+    compile 'org.modelmapper:modelmapper'
     compile project(':libs:spring-conventions')
     compile project(':libs:authentication-client')
     compile project(':libs:java-lang')

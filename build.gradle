@@ -1,4 +1,5 @@
 buildscript {
+    // TODO Get rid buildscript section as soon as spring-boot 2 plugin is released
     repositories {
         maven { url 'https://plugins.gradle.org/m2/' }
         maven { url 'https://repo.spring.io/libs-milestone' }
@@ -18,6 +19,48 @@ plugins {
 allprojects {
     group 'com.github.slamdev.micro.playground'
     version '0.0.1-SNAPSHOT'
+}
 
-    apply from: "${rootProject.projectDir}/gradle/validation.gradle"
+subprojects {
+    afterEvaluate { module ->
+        if (module.plugins.hasPlugin('java') || module.plugins.hasPlugin('java-library')) {
+            sourceCompatibility = JavaVersion.VERSION_1_8
+            targetCompatibility = JavaVersion.VERSION_1_8
+            repositories {
+                maven { url 'https://repo.spring.io/libs-milestone' }
+                jcenter()
+                maven { url 'http://dl.bintray.com/slamdev/maven' }
+            }
+            compileJava {
+                options.encoding = 'UTF-8'
+                options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation' << '-Werror'
+            }
+            compileTestJava {
+                options.encoding = 'UTF-8'
+                options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation' << '-Werror'
+            }
+            apply from: "${rootProject.projectDir}/gradle/validation.gradle"
+        }
+        if (module.plugins.hasPlugin('io.spring.dependency-management')) {
+            dependencyManagement {
+                imports {
+                    // sync dependency with spring boot via:
+                    // https://github.com/spring-cloud/spring-cloud-build/blob/v2.0.0.M1/spring-cloud-build-dependencies/pom.xml
+                    // https://github.com/spring-cloud/spring-cloud-release/blob/vFinchley.M1/spring-cloud-dependencies/pom.xml
+                    mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.M5'
+                    // spring-boot-dependencies should be declared last to override everything on top
+                    mavenBom 'org.springframework.boot:spring-boot-dependencies:2.0.0.M7'
+                }
+                dependencies {
+                    dependency 'org.modelmapper:modelmapper:1.1.1'
+                    dependency 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.0'
+                    dependency 'org.codehaus.janino:janino:3.0.7'
+                    dependency 'com.fasterxml.jackson.core:jackson-annotations:2.9.2'
+                }
+            }
+            configurations {
+                compile.exclude module: 'spring-boot-starter-tomcat'
+            }
+        }
+    }
 }

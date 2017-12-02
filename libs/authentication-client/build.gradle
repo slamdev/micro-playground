@@ -1,17 +1,6 @@
 apply plugin: 'io.spring.dependency-management'
 apply plugin: 'java-library'
 
-repositories {
-    jcenter()
-    maven { url 'https://repo.spring.io/libs-milestone' }
-}
-
-dependencyManagement {
-    imports {
-        mavenBom 'org.springframework.boot:spring-boot-dependencies:2.0.0.M7'
-    }
-}
-
 dependencies {
     api 'org.springframework.security:spring-security-oauth2-jose'
     implementation 'org.springframework.boot:spring-boot-starter-security'

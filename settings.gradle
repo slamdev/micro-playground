@@ -2,5 +2,5 @@ rootProject.name = 'micro-playground'
 ['apps', 'ops', 'services', 'libs']
         .collect { file(it).listFiles() }
         .flatten()
-        .findAll { it.name != '.DS_Store' }
+        .findAll { File dir -> new File(dir, 'build.gradle').exists() }
         .each { include "${it.parentFile.name}:${it.name}" }
