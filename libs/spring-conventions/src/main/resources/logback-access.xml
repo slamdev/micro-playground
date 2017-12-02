@@ -2,7 +2,7 @@
 <!DOCTYPE configuration>
 <configuration>
     <conversionRule conversionWord="uri"
-                    converterClass="com.github.slamdev.micro.playground.libs.spring.convetions.RequestUriLoggingConverter" />
+                    converterClass="com.github.slamdev.micro.playground.libs.spring.conventions.RequestUriLoggingConverter" />
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <filter class="ch.qos.logback.core.filter.EvaluatorFilter">
             <evaluator>

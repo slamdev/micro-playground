@@ -1,4 +1,4 @@
-package com.github.slamdev.micro.playground.libs.spring.convetions;
+package com.github.slamdev.micro.playground.libs.spring.conventions;
 
 import org.springframework.core.io.ByteArrayResource;
 

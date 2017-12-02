@@ -1,4 +1,4 @@
-package com.github.slamdev.micro.playground.libs.spring.convetions;
+package com.github.slamdev.micro.playground.libs.spring.conventions;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

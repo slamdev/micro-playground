@@ -1,4 +1,4 @@
-package com.github.slamdev.micro.playground.libs.spring.convetions;
+package com.github.slamdev.micro.playground.libs.spring.conventions;
 
 import ch.qos.logback.core.pattern.DynamicConverter;
 import net.rakugakibox.spring.boot.logback.access.undertow.UndertowLogbackAccessEvent;

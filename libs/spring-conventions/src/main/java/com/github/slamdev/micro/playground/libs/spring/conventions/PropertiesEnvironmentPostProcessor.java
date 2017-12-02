@@ -1,4 +1,4 @@
-package com.github.slamdev.micro.playground.libs.spring.convetions;
+package com.github.slamdev.micro.playground.libs.spring.conventions;
 
 import lombok.SneakyThrows;
 import org.springframework.boot.SpringApplication;

@@ -1,4 +1,4 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  com.github.slamdev.micro.playground.libs.spring.convetions.ConfigurationsImporter
+  com.github.slamdev.micro.playground.libs.spring.conventions.ConfigurationsImporter
 org.springframework.boot.env.EnvironmentPostProcessor=\
-  com.github.slamdev.micro.playground.libs.spring.convetions.LibraryEnvironmentPostProcessor
+  com.github.slamdev.micro.playground.libs.spring.conventions.LibraryEnvironmentPostProcessor
