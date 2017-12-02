@@ -18,7 +18,7 @@ paths:
         - name: credential
           in: body
           schema:
-            $ref: '#/definitions/Credential'
+            $ref: '#/definitions/CredentialDto'
       responses:
         200:
           description: OK
@@ -36,15 +36,15 @@ paths:
         - name: credential
           in: body
           schema:
-            $ref: '#/definitions/Credential'
+            $ref: '#/definitions/CredentialDto'
       responses:
         200:
           description: OK
           schema:
-            $ref: '#/definitions/User'
+            $ref: '#/definitions/UserDto'
       x-security-role: ROLE_ADMIN
 definitions:
-  Credential:
+  CredentialDto:
     type: object
     properties:
       email:
@@ -52,7 +52,7 @@ definitions:
         format: email
       password:
         type: string
-  User:
+  UserDto:
     type: object
     properties:
       id:

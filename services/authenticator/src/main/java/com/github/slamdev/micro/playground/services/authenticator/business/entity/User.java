@@ -1,9 +1,7 @@
 package com.github.slamdev.micro.playground.services.authenticator.business.entity;
 
 import com.github.slamdev.micro.playground.libs.authentication.client.RoleValue.Role;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Value;
+import lombok.*;
 import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -11,35 +9,37 @@ import org.springframework.lang.NonNull;
 
 import java.time.Instant;
 
-@Value
+@Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Document
 public class User {
 
     @Id
-    String id;
+    private String id;
 
     @NonNull
     @Indexed(unique = true)
-    String email;
+    private String email;
 
     @NonNull
-    String password;
+    private String password;
 
     @Indexed
     @NonNull
-    Role role;
+    private Role role;
 
     @CreatedDate
-    Instant created;
+    private Instant created;
 
     @CreatedBy
-    String createdBy;
+    private String createdBy;
 
     @LastModifiedDate
-    Instant lastModified;
+    private Instant lastModified;
 
     @LastModifiedBy
-    String lastModifiedBy;
+    private String lastModifiedBy;
 }

@@ -2,7 +2,8 @@ package com.github.slamdev.micro.playground.services.authenticator.business.boun
 
 import com.github.slamdev.micro.playground.libs.authentication.client.JwtFactory;
 import com.github.slamdev.micro.playground.services.authenticator.api.AuthenticatorApi;
-import com.github.slamdev.micro.playground.services.authenticator.api.Credential;
+import com.github.slamdev.micro.playground.services.authenticator.api.CredentialDto;
+import com.github.slamdev.micro.playground.services.authenticator.api.UserDto;
 import com.github.slamdev.micro.playground.services.authenticator.business.control.UserRepository;
 import com.github.slamdev.micro.playground.services.authenticator.business.entity.User;
 import com.nimbusds.jwt.SignedJWT;
@@ -41,18 +42,18 @@ public class AuthenticationController implements AuthenticatorApi {
     }
 
     @Override
-    public com.github.slamdev.micro.playground.services.authenticator.api.User createUser(Credential credential) {
+    public UserDto createUser(CredentialDto credential) {
         User user = User.builder()
                 .email(credential.getEmail())
                 .password(passwordEncoder.encode(credential.getPassword()))
                 .role(USER)
                 .build();
         User savedUser = handleDuplicateException(() -> userRepository.save(user));
-        return mapper.map(savedUser, com.github.slamdev.micro.playground.services.authenticator.api.User.class);
+        return mapper.map(savedUser, UserDto.class);
     }
 
     @Override
-    public String generateToken(Credential credential) {
+    public String generateToken(CredentialDto credential) {
         return userRepository.findByEmail(credential.getEmail())
                 .filter(user -> passwordEncoder.matches(credential.getPassword(), user.getPassword()))
                 .map(user -> jwtFactory.create(user.getEmail(), singletonList(user.getRole().toString())))
