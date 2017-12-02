@@ -51,8 +51,6 @@ definitions:
         type: array
         items:
           $ref: '#/definitions/AttachmentDto'
-      accountSfId:
-        type: string
   PersonDto:
     type: object
     properties:
