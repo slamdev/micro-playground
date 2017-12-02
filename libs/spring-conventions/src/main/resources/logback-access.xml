@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE configuration>
-<configuration debug="true">
+<configuration>
     <conversionRule conversionWord="uri"
                     converterClass="com.github.slamdev.micro.playground.libs.spring.convetions.RequestUriLoggingConverter" />
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
