@@ -1,10 +1,11 @@
 package com.github.slamdev.micro.playground.services.mailer.business.entity;
 
 import lombok.*;
-import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.lang.NonNull;
 
+import java.time.Instant;
 import java.util.List;
 
 @Data
@@ -39,6 +40,18 @@ public class MailData {
     private List<Attachment> attachments;
 
     private String error;
+
+    @CreatedDate
+    private Instant created;
+
+    @CreatedBy
+    private String createdBy;
+
+    @LastModifiedDate
+    private Instant lastModified;
+
+    @LastModifiedBy
+    private String lastModifiedBy;
 
     @Data
     @Builder
