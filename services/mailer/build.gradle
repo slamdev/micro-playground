@@ -1,0 +1,24 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+apply plugin: 'com.github.slamdev.swagger'
+apply plugin: 'java'
+
+swagger {
+    server 'src/main/resources/mailer-api.yml'
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    runtime 'org.springframework.boot:spring-boot-starter-undertow'
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    compile 'org.springframework.boot:spring-boot-starter-mail'
+    compile 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter'
+    compile 'javax.servlet:javax.servlet-api'
+    runtime 'org.codehaus.janino:janino'
+    compile 'org.modelmapper:modelmapper'
+    compile project(':libs:spring-conventions')
+    compile project(':libs:authentication-client')
+    compile project(':libs:java-lang')
+    compileOnly 'org.projectlombok:lombok'
+}

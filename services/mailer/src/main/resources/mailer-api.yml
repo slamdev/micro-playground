@@ -1,0 +1,71 @@
+---
+swagger: '2.0'
+info:
+  title: Mailer
+  version: 0.0.1
+x-package-name: com.github.slamdev.micro.playground.services.mailer.api
+x-api-name-prefix: Mailer
+x-path-variable-name: services.mailer.url
+basePath: /api
+paths:
+  /mail:
+    post:
+      operationId: sendMail
+      consumes:
+        - application/json
+      parameters:
+        - name: mailData
+          in: body
+          required: true
+          schema:
+            $ref: '#/definitions/MailDto'
+      responses:
+        200:
+          description: OK
+      x-security-role: ROLE_ANONYMOUS
+definitions:
+  MailDto:
+    type: object
+    properties:
+      subject:
+        type: string
+      text:
+        type: string
+      html:
+        type: boolean
+      fromPerson:
+        $ref: '#/definitions/PersonDto'
+      carbonCopies:
+        type: array
+        items:
+          $ref: '#/definitions/PersonDto'
+      blindCarbonCopies:
+        type: array
+        items:
+          $ref: '#/definitions/PersonDto'
+      toPersons:
+        type: array
+        items:
+          $ref: '#/definitions/PersonDto'
+      attachments:
+        type: array
+        items:
+          $ref: '#/definitions/AttachmentDto'
+      accountSfId:
+        type: string
+  PersonDto:
+    type: object
+    properties:
+      email:
+        type: string
+        format: email
+      name:
+        type: string
+  AttachmentDto:
+    type: object
+    properties:
+      name:
+        type: string
+      content:
+        type: string
+        format: byte
