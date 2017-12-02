@@ -1,7 +1,7 @@
 ---
 swagger: '2.0'
 info:
-  title: WS DMP
+  title: Authenticator
   version: 0.0.1
 x-package-name: com.github.slamdev.micro.playground.services.authenticator.api
 x-api-name-prefix: Authenticator
