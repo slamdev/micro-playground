@@ -1,0 +1,104 @@
+---
+swagger: '2.0'
+info:
+  title: Mailer
+  version: 0.0.1
+x-package-name: com.github.slamdev.micro.playground.services.profile.manager.api
+x-api-name-prefix: ProfileManager
+x-path-variable-name: services.profile.manager.url
+basePath: /api
+paths:
+paths:
+  /profiles:
+    get:
+      operationId: getProfiles
+      produces:
+        - application/json
+      responses:
+        200:
+          description: OK
+          schema:
+            type: array
+            items:
+              $ref: '#/definitions/ProfileDto'
+    post:
+      operationId: createProfile
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: body
+          name: profile
+          required: true
+          schema:
+            $ref: '#/definitions/ProfileDto'
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ProfileDto'
+  /profiles/{id}:
+    get:
+      operationId: getProfile
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+      responses:
+        200:
+          description: OK
+          schema:
+            $ref: '#/definitions/ProfileDto'
+    put:
+      operationId: updateProfile
+      consumes:
+        - application/json
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+        - in: body
+          name: profile
+          schema:
+            $ref: '#/definitions/ProfileDto'
+      responses:
+        200:
+          description: OK.
+          schema:
+            $ref: '#/definitions/ProfileDto'
+    delete:
+      operationId: deleteProfile
+      produces:
+        - application/json
+      parameters:
+        - in: path
+          name: id
+          type: string
+      responses:
+        200:
+          description: OK.
+          schema:
+            $ref: '#/definitions/ProfileDto'
+definitions:
+  ProfileDto:
+    type: object
+    properties:
+      id:
+        type: string
+      firstName:
+        type: string
+      lastName:
+        type: string
+      birthDate:
+        type: string
+        format: 'date-time'
+      gender:
+        type: string
+        enum:
+          - MAIL
+          - FEMAIL
