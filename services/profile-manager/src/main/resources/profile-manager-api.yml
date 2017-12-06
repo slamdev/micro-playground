@@ -21,6 +21,7 @@ paths:
             type: array
             items:
               $ref: '#/definitions/ProfileDto'
+      x-security-role: ROLE_ADMIN
     post:
       operationId: createProfile
       consumes:
@@ -38,6 +39,7 @@ paths:
           description: OK
           schema:
             $ref: '#/definitions/ProfileDto'
+      x-security-role: ROLE_USER
   /profiles/{id}:
     get:
       operationId: getProfile
@@ -46,12 +48,14 @@ paths:
       parameters:
         - in: path
           name: id
-          type: string
+          type: integer
+          format: int64
       responses:
         200:
           description: OK
           schema:
             $ref: '#/definitions/ProfileDto'
+      x-security-role: ROLE_USER
     put:
       operationId: updateProfile
       consumes:
@@ -61,7 +65,8 @@ paths:
       parameters:
         - in: path
           name: id
-          type: string
+          type: integer
+          format: int64
         - in: body
           name: profile
           schema:
@@ -71,6 +76,7 @@ paths:
           description: OK.
           schema:
             $ref: '#/definitions/ProfileDto'
+      x-security-role: ROLE_USER
     delete:
       operationId: deleteProfile
       produces:
@@ -78,18 +84,24 @@ paths:
       parameters:
         - in: path
           name: id
-          type: string
+          type: integer
+          format: int64
       responses:
         200:
           description: OK.
           schema:
             $ref: '#/definitions/ProfileDto'
+      x-security-role: ROLE_USER
 definitions:
   ProfileDto:
     type: object
     properties:
       id:
-        type: string
+        type: integer
+        format: int64
+      userId:
+        type: integer
+        format: int64
       firstName:
         type: string
       lastName:

@@ -28,7 +28,7 @@ public class Profile {
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private Long userId;
+    private long userId;
 
     @Column(nullable = false)
     private String firstName;
