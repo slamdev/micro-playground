@@ -1,6 +1,5 @@
-package com.github.slamdev.micro.playground.services.authenticator.business.entity;
+package com.github.slamdev.micro.playground.services.profile.manager.business.entity;
 
-import com.github.slamdev.micro.playground.libs.authentication.client.RoleValue.Role;
 import lombok.*;
 import org.springframework.data.annotation.CreatedBy;
 import org.springframework.data.annotation.CreatedDate;
@@ -19,25 +18,30 @@ import static javax.persistence.GenerationType.IDENTITY;
 @NoArgsConstructor
 @EqualsAndHashCode(of = "id")
 @Entity
-@Table(name = "user_data" /* postgres disallow to have table named `user` */, indexes = {
-        @Index(columnList = "email", unique = true),
-        @Index(columnList = "role")
+@Table(indexes = {
+        @Index(columnList = "userId", unique = true)
 })
-public class User {
+public class Profile {
 
     @Id
     @GeneratedValue(strategy = IDENTITY)
     private Long id;
 
     @Column(nullable = false, unique = true)
-    private String email;
+    private Long userId;
 
     @Column(nullable = false)
-    private String password;
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false)
+    private Instant birthDate;
 
     @Column(nullable = false)
     @Enumerated(STRING)
-    private Role role;
+    private Gender gender;
 
     @CreatedDate
     @Column(nullable = false)
@@ -54,4 +58,8 @@ public class User {
     @LastModifiedBy
     @Column(nullable = false)
     private String lastModifiedBy;
+
+    public enum Gender {
+        MALE, FEMALE;
+    }
 }

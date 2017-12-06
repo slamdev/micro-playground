@@ -100,5 +100,5 @@ definitions:
       gender:
         type: string
         enum:
-          - MAIL
-          - FEMAIL
+          - MALE
+          - FEMALE
