@@ -13,7 +13,8 @@ paths:
       operationId: generateToken
       consumes:
         - application/json
-      # produces should not be specified since method can return either text or json on error
+      produces:
+        - application/json
       parameters:
         - name: credential
           in: body
@@ -23,7 +24,7 @@ paths:
         200:
           description: OK
           schema:
-            type: string
+            $ref: '#/definitions/TokenDto'
       x-security-role: ROLE_ANONYMOUS
   /user:
     put:
@@ -66,3 +67,8 @@ definitions:
           - ANONYMOUS
           - USER
           - ADMIN
+  TokenDto:
+    type: object
+    properties:
+      token:
+        type: string

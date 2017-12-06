@@ -9,6 +9,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.Instant;
+import java.util.List;
 
 import static javax.persistence.EnumType.STRING;
 import static javax.persistence.GenerationType.IDENTITY;
@@ -37,7 +38,8 @@ public class User {
 
     @Column(nullable = false)
     @Enumerated(STRING)
-    private Role role;
+    @ElementCollection
+    private List<Role> role;
 
     @CreatedDate
     @Column(nullable = false)
