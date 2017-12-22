@@ -1,3 +1,4 @@
+import 'material-components-web/dist/material-components-web.css'
 import React from 'react'
 import ReactDOM from 'react-dom'
 import {AppContainer} from 'react-hot-loader'

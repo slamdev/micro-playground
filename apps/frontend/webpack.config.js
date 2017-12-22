@@ -58,7 +58,8 @@ module.exports = {
                         plugins: ['react-hot-loader/babel']
                     }
                 }
-            }
+            },
+            {test: /\.css$/, use: ['style-loader', 'css-loader']}
         ]
     }
 };

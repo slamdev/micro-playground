@@ -5,10 +5,12 @@
   ],
   "rules": {
     "object-curly-spacing": 0,
+    "spaced-comment": 0,
     "indent": 0,
     "comma-dangle": 0,
     "react/jsx-filename-extension": 0,
     "react/jsx-indent": 0,
+    "react/jsx-indent-props": 0,
     "react/jsx-tag-spacing": 0,
     "semi": 0,
     "react/forbid-prop-types": 0,
