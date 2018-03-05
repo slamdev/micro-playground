@@ -1,16 +1,3 @@
-buildscript {
-    // TODO Get rid buildscript section as soon as spring-boot 2 plugin is released
-    repositories {
-        maven { url 'https://plugins.gradle.org/m2/' }
-        maven { url 'https://repo.spring.io/libs-milestone' }
-    }
-    dependencies {
-        classpath 'gradle.plugin.com.github.slamdev.swagger:swagger-gradle-plugin:0.0.39'
-        classpath 'org.springframework.boot:spring-boot-gradle-plugin:2.0.0.M7'
-        classpath 'io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE'
-    }
-}
-
 plugins {
     id 'base'
     id 'idea'
@@ -22,45 +9,99 @@ allprojects {
 }
 
 subprojects {
-    afterEvaluate { module ->
-        if (module.plugins.hasPlugin('java') || module.plugins.hasPlugin('java-library')) {
-            sourceCompatibility = JavaVersion.VERSION_1_8
-            targetCompatibility = JavaVersion.VERSION_1_8
-            repositories {
-                maven { url 'https://repo.spring.io/libs-milestone' }
-                jcenter()
-                maven { url 'http://dl.bintray.com/slamdev/maven' }
-            }
-            compileJava {
-                options.encoding = 'UTF-8'
-                options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation' << '-Werror'
-            }
-            compileTestJava {
-                options.encoding = 'UTF-8'
-                options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation' << '-Werror'
-            }
-            apply from: "${rootProject.projectDir}/gradle/validation.gradle"
+    plugins.withId('java') {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+        repositories {
+            maven { url 'https://repo.spring.io/libs-milestone' }
+            jcenter()
+            maven { url 'http://dl.bintray.com/slamdev/maven' }
         }
-        if (module.plugins.hasPlugin('io.spring.dependency-management')) {
-            dependencyManagement {
-                imports {
-                    // sync dependency with spring boot via:
-                    // https://github.com/spring-cloud/spring-cloud-build/blob/v2.0.0.M1/spring-cloud-build-dependencies/pom.xml
-                    // https://github.com/spring-cloud/spring-cloud-release/blob/vFinchley.M1/spring-cloud-dependencies/pom.xml
-                    mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.M5'
-                    // spring-boot-dependencies should be declared last to override everything on top
-                    mavenBom 'org.springframework.boot:spring-boot-dependencies:2.0.0.M7'
-                }
-                dependencies {
-                    dependency 'org.modelmapper:modelmapper:1.1.1'
-                    dependency 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.0'
-                    dependency 'org.codehaus.janino:janino:3.0.7'
-                    dependency 'com.fasterxml.jackson.core:jackson-annotations:2.9.2'
-                }
+        tasks.withType(JavaCompile) {
+            options.encoding = 'UTF-8'
+            options.compilerArgs << '-Xlint:unchecked' << '-Xlint:deprecation' << '-Werror'
+        }
+        configurations {
+            compile.exclude module: 'spring-boot-starter-tomcat'
+        }
+    }
+    plugins.withId('io.spring.dependency-management') {
+        dependencyManagement {
+            imports {
+                mavenBom 'org.springframework.cloud:spring-cloud-dependencies:Finchley.M8'
+                mavenBom 'org.springframework.boot:spring-boot-dependencies:2.0.0.RELEASE'
             }
-            configurations {
-                compile.exclude module: 'spring-boot-starter-tomcat'
+            dependencies {
+                dependency 'com.google.guava:guava:24.0-jre'
+                dependency 'org.modelmapper:modelmapper:1.1.1'
+                dependency 'net.rakugakibox.spring.boot:logback-access-spring-boot-starter:2.7.0'
+                dependency 'org.codehaus.janino:janino:3.0.7'
+                dependency 'net.logstash.logback:logstash-logback-encoder:4.11'
             }
+        }
+    }
+    plugins.withId('pmd') {
+        pmd {
+            toolVersion = '6.1.0'
+            ignoreFailures = false
+            consoleOutput = false
+        }
+        tasks.withType(Pmd) {
+            if (name == 'pmdMain') {
+                source = 'src/main/java'
+                ruleSetFiles = files("${rootProject.projectDir}/config/pmd/ruleSetMain.xml")
+                ruleSets = []
+            } else {
+                ruleSetFiles = files("${rootProject.projectDir}/config/pmd/ruleSetTest.xml")
+                ruleSets = []
+            }
+            exclude '**/api/**'
+        }
+    }
+    plugins.withId('checkstyle') {
+        checkstyle {
+            toolVersion = '8.8'
+            ignoreFailures = false
+            showViolations = false
+        }
+        tasks.withType(Checkstyle) {
+            if (name == 'checkstyleMain') {
+                source = 'src/main/java'
+                configFile = file("${rootProject.projectDir}/config/checkstyle/checkstyleMain.xml")
+            } else {
+                configFile = file("${rootProject.projectDir}/config/checkstyle/checkstyleTest.xml")
+            }
+            exclude '**/api/**'
+        }
+        dependencies {
+            checkstyle 'com.thomasjensen.checkstyle.addons:checkstyle-addons:5.2.0'
+            checkstyle 'com.github.sevntu-checkstyle:sevntu-checks:1.28.0'
+        }
+
+    }
+    plugins.withId('findbugs') {
+        findbugs {
+            toolVersion = '3.0.1'
+            ignoreFailures = false
+            effort = 'max'
+            reportLevel = 'low'
+        }
+        tasks.withType(FindBugs) {
+            if (name == 'findbugsMain') {
+                excludeFilter = file("${rootProject.projectDir}/config/findbugs/excludeMain.xml")
+            } else {
+                excludeFilter = file("${rootProject.projectDir}/config/findbugs/excludeTest.xml")
+            }
+            pluginClasspath = project.configurations.findbugsPlugins
+            reports {
+                xml.enabled = false
+                html.enabled = true
+            }
+        }
+        dependencies {
+            findbugsPlugins 'com.mebigfatguy.fb-contrib:fb-contrib:7.2.0'
+            findbugsPlugins 'com.h3xstream.findsecbugs:findsecbugs-plugin:1.7.1'
+            findbugsPlugins 'com.digitalreasoning.sdp:findbugs-extensions-drs:1.1.0'
         }
     }
 }

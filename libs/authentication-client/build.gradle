@@ -1,5 +1,10 @@
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'java-library'
+plugins {
+    id 'java-library'
+    id 'pmd'
+    id 'checkstyle'
+    id 'findbugs'
+    id 'io.spring.dependency-management'
+}
 
 dependencies {
     api 'org.springframework.security:spring-security-oauth2-jose'

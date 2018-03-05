@@ -1,8 +1,5 @@
 <FindBugsFilter>
     <Match>
-        <Package name="~.*\.api\.?.*"/>
-    </Match>
-    <Match>
         <Or>
             <Bug code="CD"/>
             <Bug code="PRMC"/>
@@ -58,11 +55,10 @@
             <Bug code="OCP"/>
             <Bug code="SECSPRCSRFPD"/>
             <Bug code="OI"/>
+            <Bug code="SECHCP"/>
             <Bug code="SECMD5"/>
             <Bug code="SECSUR"/>
             <Bug code="STT"/>
-            <Bug code="SECSPRCSRFURM"/>
-            <Bug code="ICAST"/>
             <Bug code="LEST"/>
         </Or>
     </Match>

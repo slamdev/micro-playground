@@ -1,7 +1,12 @@
-apply plugin: 'org.springframework.boot'
-apply plugin: 'io.spring.dependency-management'
-apply plugin: 'com.github.slamdev.swagger'
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'pmd'
+    id 'checkstyle'
+    id 'findbugs'
+    id 'com.github.slamdev.swagger'
+    id 'io.spring.dependency-management'
+    id 'org.springframework.boot'
+}
 
 swagger {
     server 'src/main/resources/authenticator-api.yml'

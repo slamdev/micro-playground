@@ -1,4 +1,23 @@
+pluginManagement { spec ->
+    def pluginVersions = [
+            'com.github.slamdev.kubernetes-deployer': '0.0.10',
+            'com.github.slamdev.swagger'            : '0.0.44',
+            'com.github.slamdev.js-builder'         : '0.0.3',
+            'org.springframework.boot'              : '2.0.0.RELEASE',
+            'io.spring.dependency-management'       : '1.0.4.RELEASE',
+    ]
+    spec.resolutionStrategy { strategy ->
+        strategy.eachPlugin { resolver ->
+            String version = pluginVersions.get(resolver.requested.id.id)
+            if (version) {
+                resolver.useVersion(version)
+            }
+        }
+    }
+}
+
 rootProject.name = 'micro-playground'
+
 ['apps', 'ops', 'services', 'libs']
         .collect { file(it).listFiles() }
         .flatten()

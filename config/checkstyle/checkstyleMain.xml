@@ -87,12 +87,7 @@
         <module name="MethodTypeParameterName">
             <property name="format" value="^[A-Z]+$"/>
         </module>
-
-        <!-- to enable SuppressionCommentFilter -->
-        <module name="FileContentsHolder"/>
+        <module name="SuppressionCommentFilter"/>
     </module>
     <module name="FileTabCharacter"/>
-
-    <!-- allows suppressing using the //CHECKSTYLE:ON //CHECKSTYLE:OFF -->
-    <module name="SuppressionCommentFilter"/>
 </module>

@@ -14,7 +14,7 @@ module.exports = {
     },
 
     plugins: [
-        new CleanWebpackPlugin(['build']),
+        new CleanWebpackPlugin(['build/dist']),
         new HtmlWebpackPlugin({template: 'src/index.html'}),
         new webpack.NamedModulesPlugin(),
         new webpack.optimize.CommonsChunkPlugin({
@@ -35,7 +35,7 @@ module.exports = {
 
     output: {
         filename: '[name].js',
-        path: path.resolve(__dirname, 'build')
+        path: path.resolve(__dirname, 'build/dist')
     },
 
     module: {

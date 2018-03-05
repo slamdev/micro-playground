@@ -65,6 +65,8 @@
             <Bug code="SECSPRCSRFURM"/>
             <Bug code="ICAST"/>
             <Bug code="LEST"/>
+            <Bug code="SECCORS"/>
+            <Bug code="AI"/>
         </Or>
     </Match>
 </FindBugsFilter>

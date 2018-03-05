@@ -1,6 +1,5 @@
 package com.github.slamdev.micro.playground.libs.authentication.client;
 
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -38,14 +37,6 @@ public class CurrentUser {
         Authentication token = token();
         if (token instanceof JwtAuthenticationToken) {
             return Optional.of((JwtAuthenticationToken) token);
-        }
-        return Optional.empty();
-    }
-
-    private Optional<AnonymousAuthenticationToken> anonymous() {
-        Authentication token = token();
-        if (token instanceof AnonymousAuthenticationToken) {
-            return Optional.of((AnonymousAuthenticationToken) token);
         }
         return Optional.empty();
     }

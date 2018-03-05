@@ -1,1 +1,15 @@
-apply plugin: 'base'
+plugins {
+    id 'base'
+    id 'com.github.slamdev.js-builder'
+}
+
+js {
+    baseDirectory = project.file('.')
+    buildOutputDirectory = project.file("${project.buildDir}/dist")
+    downloadOutputDirectory = project.file("${project.buildDir}/jsDepsOutput")
+    testOutputDirectory = project.file("${project.buildDir}/testDepsOutput")
+}
+
+assemble.dependsOn('buildJs')
+check.dependsOn('testJs')
+clean.dependsOn('cleanJs')
